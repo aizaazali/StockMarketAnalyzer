@@ -1,0 +1,46 @@
+-- Symbol " -- " implies this line is a comment.
+
+--This script performs sentiment analysis on input data
+--create a table for importing text files containing articles
+-- We have already loaded the input on hdfs
+
+CREATE TABLE dat3(
+content string)
+location '/user/cloudera/data/';
+
+-- create another table to store the data by filename as ID
+
+CREATE TABLE dat4(
+filename string,
+content string);
+
+--insert into the table. This create a table with 2 columns
+--column 1 contains filename and columns 2 contains the text of the column
+
+INSERT INTO TABLE dat4 SELECT split(INPUT__FILE__NAME,'data/')[1],* FROM dat3;
+
+--Tokenize the sentences of the text.
+create table split_words4 as select filename as filename,split(content,' ') as words from dat4;
+
+--Flatten the tokenized words, using explode() UDF, to that each word can be analyzed
+create table text_word4 as select filename as filename, word from split_words4 LATERAL VIEW explode(words) w as word;
+
+--Create a table dictionary, in which we will load our wordlist
+--This word list is custom created, containing over 6000 word, each with positive or negative sentiment
+
+create table dictionary(word string, rating int) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+
+--load the wordlists into dictionary table
+LOAD DATA INPATA '/AFINN-111.txt' into TABLE dictionary;
+
+--perform join
+create table word_join as select text_word4.filename,text_word4.word,dictionary.rating from text_word4 LEFT OUTER JOIN dictionary ON(text_word4.word = dictionary.word);
+
+--average the tokenzied words with rating and group by file name. This each file contains filename and sentiment analysis of the articles in it
+
+select filename,AVG(rating) as rating from word_join GROUP BY word_join.filename order by rating DESC;
+
+
+
+
+
