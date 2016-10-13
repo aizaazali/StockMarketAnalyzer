@@ -1,5 +1,5 @@
 '''Script name : get_article.py
-Author         : Abhishek kadian, Mohammed Aizaaz Ali, Liuming Zhang
+Author         : Mohammed Aizaaz Ali
 Created        : April 12, 2016
 Last Modified  : April 27,2016
 Version        : 1.0
