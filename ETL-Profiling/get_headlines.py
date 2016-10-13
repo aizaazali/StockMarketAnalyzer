@@ -1,5 +1,5 @@
 '''Script name : get_headlines.py
-Author         : Abhishek kadian, Mohammed Aizaaz Ali, Liuming Zhang
+Author         : Mohammed Aizaaz Ali
 Created        : April 8, 2016
 Last Modified  : April 27,2016
 Version        : 1.0
