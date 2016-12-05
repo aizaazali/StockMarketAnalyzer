@@ -9,7 +9,7 @@ CONTENTS OF THIS FILE
 Introduction
 ------------
 
-Stock Market Analyzer extracts news articels from Yahoo! Finance and perfroms sentiment
+Stock Market Analyzer extracts news articles from Yahoo! Finance and performs sentiment
 analysis using Apache Hive and Apache Pig
 
 
